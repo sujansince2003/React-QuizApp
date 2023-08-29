@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
@@ -12,6 +12,7 @@ const initialstate = {
   //loading error ready active finished
   status: "loading",
   index: 0,
+  answer: null,
 };
 
 function render(state, action) {
@@ -24,6 +25,9 @@ function render(state, action) {
     case "startQuiz":
       return { ...state, status: "active" };
 
+    case "newAnswer":
+      return { ...state, answer: action.payload };
+
     default:
       console.log("hello");
   }
@@ -31,7 +35,7 @@ function render(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(render, initialstate);
-  const { questions, status, index } = state;
+  const { questions, status, index, answer } = state;
   useEffect(() => {
     async function fetchdata() {
       try {
@@ -45,7 +49,7 @@ function App() {
     }
     fetchdata();
   }, []);
-
+  console.log(state);
   return (
     <div className="app">
       <Header />
@@ -55,7 +59,13 @@ function App() {
         {status === "ready" && (
           <StartScreen questions={questions} dispatch={dispatch} />
         )}
-        {status === "active" && <QuestionComp question={questions[index]} />}
+        {status === "active" && (
+          <QuestionComp
+            question={questions[index]}
+            dispatch={dispatch}
+            answer={answer}
+          />
+        )}
       </Main>
     </div>
   );
