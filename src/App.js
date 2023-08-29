@@ -1,6 +1,8 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Header from "./Header";
 import Main from "./Main";
+import Loader from "./Loader";
+import Error from "./Error";
 
 const initialstate = {
   questions: [],
@@ -23,7 +25,7 @@ function render(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(render, initialstate);
-
+  const { questions, status } = state;
   useEffect(() => {
     async function fetchdata() {
       try {
@@ -42,6 +44,9 @@ function App() {
     <div className="app">
       <Header />
       <Main>
+        {status === "loading" && <Loader />}
+        {status === "Error" && <Error />}
+
         <p>1/15</p>
         <p>Questions</p>
       </Main>
