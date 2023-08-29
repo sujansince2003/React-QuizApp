@@ -4,6 +4,7 @@ import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
+import QuestionComp from "./QuestionComp";
 
 const initialstate = {
   questions: [],
@@ -18,6 +19,9 @@ function render(state, action) {
       return { ...state, questions: action.payload, status: "ready" };
     case "dataFailed":
       return { ...state, status: "Error" };
+
+    case "startQuiz":
+      return { ...state, status: "active" };
 
     default:
       console.log("hello");
@@ -47,7 +51,10 @@ function App() {
       <Main>
         {status === "loading" && <Loader />}
         {status === "Error" && <Error />}
-        {status === "ready" && <StartScreen questions={questions} />}
+        {status === "ready" && (
+          <StartScreen questions={questions} dispatch={dispatch} />
+        )}
+        {status === "active" && <QuestionComp />}
       </Main>
     </div>
   );
