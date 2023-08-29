@@ -3,6 +3,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
+import StartScreen from "./StartScreen";
 
 const initialstate = {
   questions: [],
@@ -46,9 +47,7 @@ function App() {
       <Main>
         {status === "loading" && <Loader />}
         {status === "Error" && <Error />}
-
-        <p>1/15</p>
-        <p>Questions</p>
+        {status === "ready" && <StartScreen questions={questions} />}
       </Main>
     </div>
   );
