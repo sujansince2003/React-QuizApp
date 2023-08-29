@@ -11,6 +11,7 @@ const initialstate = {
 
   //loading error ready active finished
   status: "loading",
+  index: 0,
 };
 
 function render(state, action) {
@@ -30,7 +31,7 @@ function render(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(render, initialstate);
-  const { questions, status } = state;
+  const { questions, status, index } = state;
   useEffect(() => {
     async function fetchdata() {
       try {
@@ -54,7 +55,7 @@ function App() {
         {status === "ready" && (
           <StartScreen questions={questions} dispatch={dispatch} />
         )}
-        {status === "active" && <QuestionComp />}
+        {status === "active" && <QuestionComp question={questions[index]} />}
       </Main>
     </div>
   );
