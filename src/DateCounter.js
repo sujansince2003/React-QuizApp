@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 
 function reducer(state, action) {
   console.log(state, action);
@@ -15,6 +15,9 @@ function reducer(state, action) {
 
     case "setcount":
       return { ...state, count: action.payload };
+
+    case "reset":
+      return { ...state, count: 0, step: 1 };
 
     default:
       return "hello";
@@ -62,6 +65,7 @@ function DateCounter() {
   };
 
   const reset = function () {
+    dispatch({ type: "reset" });
     // setCount(0);
     // setStep(1);
   };
