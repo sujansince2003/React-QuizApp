@@ -13,6 +13,7 @@ const initialstate = {
   status: "loading",
   index: 0,
   answer: null,
+  points: 0,
 };
 
 function render(state, action) {
@@ -26,7 +27,17 @@ function render(state, action) {
       return { ...state, status: "active" };
 
     case "newAnswer":
-      return { ...state, answer: action.payload };
+      const question = state.questions.at(state.index);
+      // console.log(question);
+
+      return {
+        ...state,
+        answer: action.payload,
+        points:
+          action.payload === question.correctOption
+            ? state.points + question.points
+            : state.points,
+      };
 
     default:
       console.log("hello");
