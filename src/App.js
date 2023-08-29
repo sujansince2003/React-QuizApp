@@ -1,11 +1,41 @@
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
+
+const initialstate = {
+  questions: [],
+
+  //loading error ready active finished
+  status: "loading",
+};
+
+function render(state, action) {
+  switch (action.type) {
+    case "dataReceived":
+      return { ...state, questions: action.payload, status: "ready" };
+    case "dataFailed":
+      return { ...state, status: "Error" };
+
+    default:
+      console.log("hello");
+  }
+}
+
 function App() {
-  useEffect(function () {
-    fetch("http://localhost:9000/questions")
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+  const [state, dispatch] = useReducer(render, initialstate);
+
+  useEffect(() => {
+    async function fetchdata() {
+      try {
+        const res = await fetch("http://localhost:9000/questions");
+        const data = await res.json();
+        // console.log(data);
+        dispatch({ type: "dataReceived", payload: data });
+      } catch (err) {
+        dispatch({ type: "dataFailed" });
+      }
+    }
+    fetchdata();
   }, []);
 
   return (
