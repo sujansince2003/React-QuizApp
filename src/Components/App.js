@@ -5,6 +5,7 @@ import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
 import QuestionComp from "./QuestionComp";
+import NextBtn from "./NextBtn";
 
 const initialstate = {
   questions: [],
@@ -39,6 +40,13 @@ function render(state, action) {
             : state.points,
       };
 
+    case "nextques":
+      return {
+        ...state,
+        index: state.index + 1,
+        answer: null,
+      };
+
     default:
       console.log("hello");
   }
@@ -70,12 +78,16 @@ function App() {
         {status === "ready" && (
           <StartScreen questions={questions} dispatch={dispatch} />
         )}
+
         {status === "active" && (
-          <QuestionComp
-            question={questions[index]}
-            dispatch={dispatch}
-            answer={answer}
-          />
+          <>
+            <QuestionComp
+              question={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+            />
+            <NextBtn dispatch={dispatch} answer={answer} />
+          </>
         )}
       </Main>
     </div>
