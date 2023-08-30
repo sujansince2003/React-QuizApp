@@ -8,6 +8,7 @@ import QuestionComp from "./QuestionComp";
 import NextBtn from "./NextBtn";
 import Progress from "./Progress";
 import Finished from "./Finished";
+import Timer from "./Timer";
 
 const initialstate = {
   questions: [],
@@ -107,12 +108,15 @@ function App() {
               dispatch={dispatch}
               answer={answer}
             />
-            <NextBtn
-              dispatch={dispatch}
-              answer={answer}
-              questions={questions}
-              index={index}
-            />
+            <footer>
+              <Timer />
+              <NextBtn
+                dispatch={dispatch}
+                answer={answer}
+                questions={questions}
+                index={index}
+              />
+            </footer>
           </>
         )}
         {status === "finished" && (
