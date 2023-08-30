@@ -10,6 +10,9 @@ import Progress from "./Progress";
 import Finished from "./Finished";
 import Timer from "./Timer";
 
+const API_URl =
+  "https://raw.githubusercontent.com/sujansince2003/React-QuizApp/main/Data/questions.json";
+
 const Sec_per_ques = 10;
 const initialstate = {
   questions: [],
@@ -85,19 +88,19 @@ function App() {
   useEffect(() => {
     async function fetchdata() {
       try {
-        const res = await fetch("http://localhost:9000/questions");
+        const res = await fetch(API_URl);
         const data = await res.json();
-        // console.log(data);
-        dispatch({ type: "dataReceived", payload: data });
+
+        dispatch({ type: "dataReceived", payload: data.questions });
+        // dispatch({ type: "dataReceived", payload: data }); while using json local server
       } catch (err) {
         dispatch({ type: "dataFailed" });
       }
     }
     fetchdata();
   }, []);
-
+  // const maxPoints = 280;
   const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
-
   return (
     <div className="app">
       <Header />
