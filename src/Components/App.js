@@ -17,6 +17,7 @@ const initialstate = {
   index: 0,
   answer: null,
   points: 0,
+  highscore: 20,
 };
 
 function render(state, action) {
@@ -49,7 +50,12 @@ function render(state, action) {
         answer: null,
       };
     case "finished":
-      return { ...state, status: "finished" };
+      return {
+        ...state,
+        status: "finished",
+        highscore:
+          state.points > state.highscore ? state.points : state.highscore,
+      };
     default:
       console.log("hello");
   }
@@ -57,7 +63,7 @@ function render(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(render, initialstate);
-  const { questions, status, index, answer, points } = state;
+  const { questions, status, index, answer, points, highscore } = state;
   useEffect(() => {
     async function fetchdata() {
       try {
@@ -107,7 +113,11 @@ function App() {
           </>
         )}
         {status === "finished" && (
-          <Finished points={points} maxPoints={maxPoints} />
+          <Finished
+            points={points}
+            maxPoints={maxPoints}
+            highscore={highscore}
+          />
         )}
       </Main>
     </div>
