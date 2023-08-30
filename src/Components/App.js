@@ -82,7 +82,7 @@ function App() {
 
         {status === "active" && (
           <>
-            <Progress />
+            <Progress index={index} questions={questions} />
             <QuestionComp
               question={questions[index]}
               dispatch={dispatch}
