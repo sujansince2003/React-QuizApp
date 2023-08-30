@@ -55,7 +55,7 @@ function render(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(render, initialstate);
-  const { questions, status, index, answer } = state;
+  const { questions, status, index, answer, points } = state;
   useEffect(() => {
     async function fetchdata() {
       try {
@@ -69,7 +69,9 @@ function App() {
     }
     fetchdata();
   }, []);
-  console.log(state);
+  console.log(questions);
+  const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
+  console.log(maxPoints);
   return (
     <div className="app">
       <Header />
@@ -82,7 +84,7 @@ function App() {
 
         {status === "active" && (
           <>
-            <Progress index={index} questions={questions} />
+            <Progress index={index} questions={questions} points={points} />
             <QuestionComp
               question={questions[index]}
               dispatch={dispatch}
