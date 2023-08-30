@@ -49,7 +49,7 @@ function render(state, action) {
         answer: null,
       };
     case "finished":
-      return { ...state, status: "finished", questions: [] };
+      return { ...state, status: "finished" };
     default:
       console.log("hello");
   }
@@ -73,10 +73,6 @@ function App() {
   }, []);
 
   const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
-  if (index === 14) {
-    console.log(index);
-    dispatch({ type: "finished" });
-  }
 
   return (
     <div className="app">

@@ -13,7 +13,7 @@ const NextBtn = ({dispatch,answer,questions,index}) => {
         </button>
      );
 
-    if(index== (questions.length)-1)
+    if(index=== (questions.length)-1)
     return ( 
         <button 
         className="btn btn-ui"
