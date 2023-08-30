@@ -10,6 +10,7 @@ import Progress from "./Progress";
 import Finished from "./Finished";
 import Timer from "./Timer";
 
+const Sec_per_ques = 10;
 const initialstate = {
   questions: [],
 
@@ -19,6 +20,7 @@ const initialstate = {
   answer: null,
   points: 0,
   highscore: 20,
+  Seconds: null,
 };
 
 function render(state, action) {
@@ -29,7 +31,11 @@ function render(state, action) {
       return { ...state, status: "Error" };
 
     case "startQuiz":
-      return { ...state, status: "active" };
+      return {
+        ...state,
+        status: "active",
+        Seconds: state.questions.length * Sec_per_ques,
+      };
 
     case "newAnswer":
       const question = state.questions.at(state.index);
@@ -60,6 +66,13 @@ function render(state, action) {
 
     case "restart":
       return { ...initialstate, questions: state.questions, status: "ready" };
+
+    case "tick":
+      return {
+        ...state,
+        Seconds: state.Seconds - 1,
+        status: state.Seconds === 0 ? "finished" : state.status,
+      };
     default:
       console.log("hello");
   }
@@ -67,7 +80,8 @@ function render(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(render, initialstate);
-  const { questions, status, index, answer, points, highscore } = state;
+  const { questions, status, index, answer, points, highscore, Seconds } =
+    state;
   useEffect(() => {
     async function fetchdata() {
       try {
@@ -109,7 +123,7 @@ function App() {
               answer={answer}
             />
             <footer>
-              <Timer />
+              <Timer dispatch={dispatch} Seconds={Seconds} />
               <NextBtn
                 dispatch={dispatch}
                 answer={answer}

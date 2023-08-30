@@ -1,4 +1,4 @@
-import { type } from "@testing-library/user-event/dist/type";
+
 
 const NextBtn = ({dispatch,answer,questions,index}) => {
     if (answer==null) return null;
