@@ -69,9 +69,9 @@ function App() {
     }
     fetchdata();
   }, []);
-  console.log(questions);
+
   const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
-  console.log(maxPoints);
+
   return (
     <div className="app">
       <Header />
@@ -84,7 +84,13 @@ function App() {
 
         {status === "active" && (
           <>
-            <Progress index={index} questions={questions} points={points} />
+            <Progress
+              index={index}
+              questions={questions}
+              points={points}
+              maxPoints={maxPoints}
+              answer={answer}
+            />
             <QuestionComp
               question={questions[index]}
               dispatch={dispatch}
